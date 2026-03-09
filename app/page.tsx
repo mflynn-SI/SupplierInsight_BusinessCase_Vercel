@@ -1,0 +1,478 @@
+"use client";
+
+import { useState } from "react";
+
+const SI_DARK_TEAL = "#0d3d4a";
+const SI_MID_TEAL = "#1a6b7a";
+const SI_GREEN = "#3ab54a";
+const SI_LIGHT_GREEN = "#7cc576";
+const SI_GOLD = "#c8a84b";
+const SI_WHITE = "#ffffff";
+const SI_LIGHT_BG = "#f5f7f8";
+const SI_DARK_TEXT = "#0d2b35";
+const SI_GRAY_TEXT = "#4a6470";
+const SI_BORDER = "#e0e8eb";
+
+const slides = [
+  { id: 1, title: "Unlocking the Risk Intelligence Opportunity", subtitle: "A Strategic Growth Initiative for Source Intelligence", type: "cover" },
+  { id: 2, title: "The Problem We're Solving", type: "problem" },
+  { id: 3, title: "The Strategic Opportunity", type: "opportunity" },
+  { id: 4, title: "Our Unfair Advantage", type: "advantage" },
+  { id: 5, title: "The Progressive Scoring Model", type: "scoring" },
+  { id: 6, title: "Competitive Position", type: "competitive" },
+  { id: 7, title: "Revenue Expansion Model", type: "revenue" },
+  { id: 8, title: "Why This Improves Gross Margin", type: "margin" },
+  { id: 9, title: "The Moats We're Building", type: "moats" },
+  { id: 10, title: "Path to Market", type: "path" },
+];
+
+function SILogo({ dark }: { dark: boolean }) {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <rect x="2" y="2" width="11" height="11" rx="2" fill={SI_GREEN} opacity="0.9" />
+        <rect x="15" y="2" width="11" height="11" rx="2" fill={SI_GREEN} opacity="0.6" />
+        <rect x="2" y="15" width="11" height="11" rx="2" fill={SI_GREEN} opacity="0.6" />
+        <rect x="15" y="15" width="11" height="11" rx="2" fill={SI_GREEN} opacity="0.3" />
+      </svg>
+      <div style={{ fontWeight: 800, fontSize: 14, letterSpacing: 1 }}>
+        <span style={{ color: SI_GREEN }}>SOURCE</span>
+        <span style={{ color: dark ? SI_DARK_TEAL : SI_WHITE }}>INTELLIGENCE</span>
+      </div>
+    </div>
+  );
+}
+
+function Footer({ slideNum }: { slideNum: number }) {
+  return (
+    <div style={{ position: "absolute", bottom: 0, left: 0, right: 0 }}>
+      <div style={{ background: SI_DARK_TEAL, height: 32, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 24px" }}>
+        <span style={{ color: "rgba(255,255,255,0.6)", fontSize: 10 }}>
+          <strong style={{ color: "rgba(255,255,255,0.8)" }}>Confidential</strong> ©2026 Source Intelligence. All Rights Reserved.
+        </span>
+        <div style={{ background: SI_LIGHT_GREEN, borderRadius: "50%", width: 28, height: 28, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <span style={{ color: SI_WHITE, fontSize: 11, fontWeight: 700 }}>{slideNum}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SlideWrapper({ children, current }: { children: React.ReactNode; current: number }) {
+  return (
+    <div style={{ width: "100%", minHeight: 540, background: SI_WHITE, borderRadius: 10, boxShadow: "0 6px 32px rgba(13,61,74,0.15)", display: "flex", flexDirection: "column", position: "relative", overflow: "hidden" }}>
+      {children}
+      <Footer slideNum={current} />
+    </div>
+  );
+}
+
+function SectionHeader({ title, subtitle, accentColor }: { title: string; subtitle?: string; accentColor?: string }) {
+  const ac = accentColor || SI_GREEN;
+  return (
+    <div style={{ marginBottom: 24 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 4 }}>
+        <div style={{ width: 4, height: 32, background: `linear-gradient(180deg,${ac},${SI_MID_TEAL})`, borderRadius: 2, flexShrink: 0 }} />
+        <h2 style={{ fontSize: 24, fontWeight: 800, color: SI_DARK_TEXT, margin: 0, letterSpacing: -0.5 }}>{title}</h2>
+      </div>
+      {subtitle && <p style={{ color: SI_GRAY_TEXT, margin: "4px 0 0 16px", fontSize: 13, fontStyle: "italic" }}>{subtitle}</p>}
+    </div>
+  );
+}
+
+function CoverSlide() {
+  return (
+    <div style={{ flex: 1, background: `linear-gradient(160deg,${SI_DARK_TEAL} 0%,${SI_MID_TEAL} 55%,#1d8a6e 100%)`, display: "flex", flexDirection: "column", minHeight: 508, position: "relative", overflow: "hidden" }}>
+      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: `linear-gradient(90deg,${SI_GOLD},transparent)` }} />
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "48px 60px", zIndex: 1 }}>
+        <div style={{ marginBottom: 28 }}><SILogo dark={false} /></div>
+        <div style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)", borderRadius: 6, padding: "6px 20px", marginBottom: 24 }}>
+          <span style={{ color: "rgba(255,255,255,0.7)", fontSize: 11, letterSpacing: 3, textTransform: "uppercase" }}>ELT Strategic Briefing — Confidential</span>
+        </div>
+        <h1 style={{ color: SI_WHITE, fontSize: 36, fontWeight: 800, textAlign: "center", margin: "0 0 12px", lineHeight: 1.2, letterSpacing: -0.5 }}>
+          Unlocking the <span style={{ color: SI_GREEN }}>Risk Intelligence</span><br />Opportunity
+        </h1>
+        <div style={{ width: 60, height: 2, background: SI_GOLD, margin: "16px auto 20px" }} />
+        <p style={{ color: "rgba(255,255,255,0.75)", fontSize: 16, textAlign: "center", margin: "0 0 36px", fontWeight: 300 }}>A Strategic Growth Initiative for Source Intelligence</p>
+        <div style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "center" }}>
+          {["Expand Revenue Per Customer", "Differentiate From Competitors", "Improve Gross Margin"].map((t, i) => (
+            <div key={i} style={{ background: "rgba(255,255,255,0.10)", border: "1px solid rgba(255,255,255,0.18)", borderRadius: 6, padding: "8px 18px", color: SI_WHITE, fontSize: 12, fontWeight: 600 }}>
+              <span style={{ color: SI_GREEN }}>✓ </span>{t}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ProblemSlide() {
+  const problems = [
+    { icon: "📊", title: "Compliance Data Sits Idle", desc: "Years of validated supplier data collected for regulatory purposes — never leveraged for broader risk intelligence.", color: SI_DARK_TEAL },
+    { icon: "👤", title: "One Buyer Per Account", desc: "We currently sell to the Product Compliance manager. Procurement, Sustainability, and Trade buyers in the same company have separate budgets we never touch.", color: SI_MID_TEAL },
+    { icon: "💰", title: "Margin Pressure", desc: "Services-heavy delivery model constrains GM. Intelligence products — once built — deliver at dramatically lower cost to serve.", color: "#c0392b" },
+    { icon: "⚠️", title: "Platform Risk", desc: "Legacy architecture limits our ability to build new AI-native solutions. Competitors are moving faster.", color: SI_GOLD },
+  ];
+  return (
+    <div style={{ flex: 1, display: "flex", flexDirection: "column", padding: "32px 36px 52px" }}>
+      <SectionHeader title="The Problem We're Solving" subtitle="Four constraints on growth that this product directly addresses" accentColor="#c0392b" />
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, flex: 1 }}>
+        {problems.map((p, i) => (
+          <div key={i} style={{ background: SI_LIGHT_BG, borderRadius: 8, padding: 20, display: "flex", gap: 14, alignItems: "flex-start", borderTop: `3px solid ${p.color}`, boxShadow: "0 2px 8px rgba(13,61,74,0.06)" }}>
+            <div style={{ width: 44, height: 44, background: `${p.color}15`, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>{p.icon}</div>
+            <div>
+              <div style={{ fontWeight: 700, fontSize: 14, color: p.color, marginBottom: 6 }}>{p.title}</div>
+              <div style={{ fontSize: 12, color: SI_GRAY_TEXT, lineHeight: 1.6 }}>{p.desc}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function OpportunitySlide() {
+  const stats = [
+    { val: "$13B+", label: "EHS/ESG/SCRM Market TAM", color: SI_DARK_TEAL },
+    { val: "15%+", label: "Annual Market Growth Rate", color: SI_GREEN },
+    { val: "90%", label: "of companies faced supply chain issues in 2024", color: "#e67e22" },
+    { val: "4×", label: "Buyer personas per existing account", color: SI_MID_TEAL },
+  ];
+  return (
+    <div style={{ flex: 1, display: "flex", flexDirection: "column", padding: "32px 36px 52px" }}>
+      <SectionHeader title="The Strategic Opportunity" subtitle="A $13B+ market growing at 15%+ annually — and we already have the data asset to compete" accentColor={SI_GREEN} />
+      <div style={{ display: "flex", gap: 16, marginBottom: 20 }}>
+        {stats.map((s, i) => (
+          <div key={i} style={{ flex: 1, background: SI_WHITE, borderRadius: 8, padding: "18px 14px", textAlign: "center", border: `1px solid ${SI_BORDER}`, borderTop: `4px solid ${s.color}`, boxShadow: "0 2px 8px rgba(13,61,74,0.06)" }}>
+            <div style={{ fontSize: 30, fontWeight: 800, color: s.color, letterSpacing: -1 }}>{s.val}</div>
+            <div style={{ fontSize: 11, color: SI_GRAY_TEXT, marginTop: 6, lineHeight: 1.4 }}>{s.label}</div>
+          </div>
+        ))}
+      </div>
+      <div style={{ background: `linear-gradient(135deg,${SI_DARK_TEAL}08,${SI_GREEN}12)`, borderRadius: 8, padding: 20, borderLeft: `4px solid ${SI_GREEN}`, flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
+          <div style={{ width: 8, height: 8, borderRadius: "50%", background: SI_GREEN }} />
+          <div style={{ fontWeight: 700, fontSize: 13, color: SI_DARK_TEAL, textTransform: "uppercase", letterSpacing: 1 }}>The Core Insight</div>
+        </div>
+        <p style={{ margin: 0, fontSize: 14, color: SI_DARK_TEXT, lineHeight: 1.7, fontStyle: "italic" }}>
+          {'"Compliance is the entry point, not the endpoint. When companies collect supplier data to meet mandatory regulations, they unlock visibility into supplier reliability, sourcing locations, and material dependencies — the same data points needed to assess operational, geopolitical, ESG, and trade risk. Our Risk product transforms that compliance investment into supply chain intelligence."'}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function AdvantageSlide() {
+  const items = [
+    { title: "Verified Compliance Data Provenance", desc: "Our risk scores incorporate validated, campaign-sourced data no external platform can access. A supplier's REACH response, CMRT submission, and assessment score are verified data points competitors simply don't have.", icon: "🔒", color: SI_DARK_TEAL, num: "01" },
+    { title: "Product-Level Traceability", desc: "We connect risk findings back to specific parts and products — not just supplier entities. If a supplier fails, we know exactly which component is affected and which products are at risk.", icon: "🔗", color: SI_GREEN, num: "02" },
+    { title: "Compliance Causality", desc: "We produce an evidence trail that holds up in audit or regulatory inquiry. Competitors show a score. We show a score with the compliance data that proves it.", icon: "⚖️", color: SI_MID_TEAL, num: "03" },
+  ];
+  return (
+    <div style={{ flex: 1, display: "flex", flexDirection: "column", padding: "32px 36px 52px" }}>
+      <SectionHeader title="Our Unfair Advantage" subtitle="Three differentiated claims competitors cannot replicate" accentColor={SI_MID_TEAL} />
+      <div style={{ display: "flex", flexDirection: "column", gap: 14, flex: 1 }}>
+        {items.map((item, i) => (
+          <div key={i} style={{ display: "flex", background: SI_LIGHT_BG, borderRadius: 8, overflow: "hidden", boxShadow: "0 2px 8px rgba(13,61,74,0.06)", flex: 1 }}>
+            <div style={{ width: 56, background: item.color, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 6, flexShrink: 0 }}>
+              <span style={{ fontSize: 20 }}>{item.icon}</span>
+              <span style={{ color: "rgba(255,255,255,0.5)", fontSize: 10, fontWeight: 700 }}>{item.num}</span>
+            </div>
+            <div style={{ padding: "16px 20px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+              <div style={{ fontWeight: 700, fontSize: 14, color: item.color, marginBottom: 5 }}>{item.title}</div>
+              <div style={{ fontSize: 12, color: SI_GRAY_TEXT, lineHeight: 1.6 }}>{item.desc}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ScoringSlide() {
+  const tiers = [
+    { label: "Base Score", sublabel: "Every supplier, day one", desc: "Entity risk from AI web intelligence — sanctions, adverse media, financial, regulatory, cyber, geopolitical", color: SI_DARK_TEAL, score: "~45", active: true, tag: "Live" },
+    { label: "+ Assessment Data", sublabel: "When campaigns run", desc: "Human rights, code of conduct, sustainability questionnaire results enrich and refine the composite score", color: SI_MID_TEAL, score: "~62", active: true, tag: "Live" },
+    { label: "+ Compliance Data", sublabel: "With Product Compliance Lite", desc: "REACH, RoHS, TSCA, PFAS, Prop65, SCIP verdicts add product-level regulatory risk — unique to SI", color: SI_GREEN, score: "~78", active: true, tag: "Live" },
+    { label: "+ Trade Data", sublabel: "Future: MPN-to-trade-code", desc: "Tariff exposure, sanctions screening, country-of-origin risk mapped to customer-specific BOM", color: SI_GOLD, score: "~85", active: false, tag: "Roadmap" },
+  ];
+  return (
+    <div style={{ flex: 1, display: "flex", flexDirection: "column", padding: "32px 36px 52px" }}>
+      <SectionHeader title="The Progressive Scoring Model" subtitle="More SI data = higher fidelity score. The engine of our competitive moat." accentColor={SI_GOLD} />
+      <div style={{ display: "flex", gap: 12, flex: 1 }}>
+        {tiers.map((t, i) => (
+          <div key={i} style={{ flex: 1, display: "flex", flexDirection: "column", opacity: t.active ? 1 : 0.6 }}>
+            <div style={{ background: t.color, borderRadius: "8px 8px 0 0", padding: "14px 12px", textAlign: "center", position: "relative" }}>
+              {i < tiers.length - 1 && (
+                <div style={{ position: "absolute", right: -10, top: "50%", transform: "translateY(-50%)", width: 0, height: 0, borderTop: "10px solid transparent", borderBottom: "10px solid transparent", borderLeft: `10px solid ${t.color}`, zIndex: 2 }} />
+              )}
+              <div style={{ background: "rgba(255,255,255,0.2)", borderRadius: 4, padding: "2px 8px", display: "inline-block", marginBottom: 6 }}>
+                <span style={{ color: SI_WHITE, fontSize: 9, fontWeight: 700, letterSpacing: 1 }}>{t.tag}</span>
+              </div>
+              <div style={{ color: SI_WHITE, fontWeight: 700, fontSize: 12, lineHeight: 1.3 }}>{t.label}</div>
+              <div style={{ color: "rgba(255,255,255,0.7)", fontSize: 10, marginTop: 3 }}>{t.sublabel}</div>
+            </div>
+            <div style={{ flex: 1, background: SI_LIGHT_BG, borderRadius: "0 0 8px 8px", padding: 14, border: `1px solid ${SI_BORDER}`, borderTop: "none" }}>
+              <div style={{ fontSize: 32, fontWeight: 800, color: t.color, textAlign: "center", marginBottom: 8, letterSpacing: -1 }}>{t.score}</div>
+              <div style={{ fontSize: 10, color: SI_GRAY_TEXT, lineHeight: 1.5, textAlign: "center" }}>{t.desc}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style={{ marginTop: 14, background: `${SI_GREEN}12`, borderRadius: 6, padding: "10px 16px", fontSize: 12, color: SI_DARK_TEAL, fontWeight: 600, textAlign: "center", border: `1px solid ${SI_GREEN}30` }}>
+        ✓ The more a customer uses C-Map+, the smarter their risk intelligence becomes — a compounding value dynamic no competitor can replicate
+      </div>
+    </div>
+  );
+}
+
+function CompetitiveSlide() {
+  const competitors = [
+    { name: "Assent", threat: "High", strategy: "Displace", detail: "Compliance heritage moving into risk screening. Our scoring is structurally integrated — theirs is bolt-on.", tColor: "#c0392b", sColor: SI_GREEN },
+    { name: "EcoVadis", threat: "High", strategy: "Displace", detail: "Survey/attestation model requires supplier cooperation. Ours does not. Faster, more defensible.", tColor: "#c0392b", sColor: SI_GREEN },
+    { name: "Altana", threat: "Medium", strategy: "Differentiate", detail: "They map supply chains outside-in via trade data. We map inside-out from compliance data — anchored to your actual product portfolio.", tColor: "#e67e22", sColor: "#e67e22" },
+    { name: "Everstream", threat: "Medium", strategy: "Watch", detail: "Strong sub-tier visibility via trade data. We address with roadmap trade dimension. Not a day-one threat.", tColor: "#e67e22", sColor: SI_MID_TEAL },
+    { name: "D&B / Moody's", threat: "Low", strategy: "Coexist", detail: "Financial risk tools for CFO. We add compliance, trade, and regulatory dimensions they don't cover.", tColor: SI_GREEN, sColor: SI_GREEN },
+  ];
+  return (
+    <div style={{ flex: 1, display: "flex", flexDirection: "column", padding: "32px 36px 52px" }}>
+      <SectionHeader title="Competitive Position" subtitle="We have structural advantages against our most important competitors" accentColor="#c0392b" />
+      <div style={{ display: "flex", flexDirection: "column", gap: 8, flex: 1 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "120px 80px 110px 1fr", gap: 8, padding: "0 14px", marginBottom: 2 }}>
+          {["Competitor", "Threat", "Our Play", "Key Differentiator"].map(h => (
+            <div key={h} style={{ fontSize: 10, fontWeight: 700, color: SI_GRAY_TEXT, textTransform: "uppercase", letterSpacing: 1 }}>{h}</div>
+          ))}
+        </div>
+        {competitors.map((c, i) => (
+          <div key={i} style={{ display: "grid", gridTemplateColumns: "120px 80px 110px 1fr", gap: 8, background: SI_WHITE, borderRadius: 6, padding: "10px 14px", alignItems: "center", border: `1px solid ${SI_BORDER}`, borderLeft: `4px solid ${c.tColor}`, boxShadow: "0 1px 4px rgba(13,61,74,0.05)" }}>
+            <div style={{ fontWeight: 700, fontSize: 13, color: SI_DARK_TEXT }}>{c.name}</div>
+            <div><span style={{ background: c.tColor, color: SI_WHITE, borderRadius: 4, padding: "2px 10px", fontSize: 10, fontWeight: 700 }}>{c.threat}</span></div>
+            <div style={{ fontSize: 11, fontWeight: 700, color: c.sColor }}>{c.strategy}</div>
+            <div style={{ fontSize: 11, color: SI_GRAY_TEXT, lineHeight: 1.4 }}>{c.detail}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function RevenueSlide() {
+  const personas = [
+    { name: "Product Compliance", current: true, budget: "$30–60K", trigger: "Regulatory mandate", color: SI_DARK_TEAL },
+    { name: "Procurement", current: false, budget: "$40–80K", trigger: "Supplier risk visibility", color: SI_GREEN },
+    { name: "Sustainability / ESG", current: false, budget: "$30–60K", trigger: "CSRD / CSDDD reporting", color: SI_MID_TEAL },
+    { name: "Trade Compliance", current: false, budget: "$40–100K", trigger: "Tariff & sanctions exposure", color: SI_GOLD },
+  ];
+  return (
+    <div style={{ flex: 1, display: "flex", flexDirection: "column", padding: "32px 36px 52px" }}>
+      <SectionHeader title="Revenue Expansion Model" subtitle="Four buyer personas per account. Today we monetize one." accentColor={SI_GREEN} />
+      <div style={{ display: "flex", gap: 14, marginBottom: 18 }}>
+        {personas.map((p, i) => (
+          <div key={i} style={{ flex: 1, borderRadius: 8, overflow: "hidden", border: p.current ? `2px solid ${p.color}` : `1px solid ${SI_BORDER}`, background: SI_WHITE, boxShadow: p.current ? `0 4px 16px ${p.color}25` : "0 2px 8px rgba(13,61,74,0.06)" }}>
+            <div style={{ background: p.current ? p.color : `${p.color}18`, padding: "6px 10px", textAlign: "center" }}>
+              <span style={{ color: p.current ? SI_WHITE : p.color, fontSize: 9, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase" }}>{p.current ? "✓ Current Buyer" : "Expansion Opportunity"}</span>
+            </div>
+            <div style={{ padding: "14px 12px" }}>
+              <div style={{ fontWeight: 700, fontSize: 12, color: SI_DARK_TEXT, marginBottom: 10 }}>{p.name}</div>
+              <div style={{ fontSize: 10, color: SI_GRAY_TEXT, marginBottom: 3 }}>Typical budget</div>
+              <div style={{ fontSize: 20, fontWeight: 800, color: p.color, marginBottom: 8, letterSpacing: -0.5 }}>{p.budget}</div>
+              <div style={{ fontSize: 10, color: SI_GRAY_TEXT, background: SI_LIGHT_BG, borderRadius: 4, padding: "4px 8px", border: `1px solid ${SI_BORDER}` }}>{p.trigger}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style={{ background: `linear-gradient(135deg,${SI_DARK_TEAL}08,${SI_GREEN}15)`, borderRadius: 8, padding: "16px 20px", display: "flex", border: `1px solid ${SI_GREEN}30` }}>
+        {[
+          { label: "Current ACV per account", val: "$30–60K", note: "baseline" },
+          { label: "Potential ACV with all 4 personas", val: "$140–300K", note: "opportunity" },
+          { label: "Revenue expansion multiple", val: "3–5×", note: "upside" },
+        ].map((s, i) => (
+          <div key={i} style={{ flex: 1, textAlign: "center", borderRight: i < 2 ? `1px solid ${SI_GREEN}30` : "none" }}>
+            <div style={{ fontSize: 26, fontWeight: 800, color: i === 2 ? SI_GREEN : SI_DARK_TEAL, letterSpacing: -1 }}>{s.val}</div>
+            <div style={{ fontSize: 11, color: SI_GRAY_TEXT, marginTop: 4 }}>{s.label}</div>
+            <div style={{ fontSize: 9, color: SI_GREEN, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, marginTop: 2 }}>{s.note}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function MarginSlide() {
+  return (
+    <div style={{ flex: 1, display: "flex", flexDirection: "column", padding: "32px 36px 52px" }}>
+      <SectionHeader title="Why This Improves Gross Margin" subtitle="Intelligence products have a fundamentally different cost structure than services" accentColor={SI_GREEN} />
+      <div style={{ display: "flex", gap: 16, marginBottom: 16, flex: 1 }}>
+        {[
+          { label: "Legacy Services Model", gm: 45, color: "#c0392b", cogs: "High — analyst labor, manual delivery, campaign management overhead", icon: "📉" },
+          { label: "Risk Intelligence Product", gm: 80, color: SI_GREEN, cogs: "Low — AI-computed scores, automated refresh, minimal human delivery cost", icon: "📈" },
+        ].map((c, i) => (
+          <div key={i} style={{ flex: 1, background: SI_WHITE, borderRadius: 8, padding: 22, border: `1px solid ${SI_BORDER}`, borderTop: `4px solid ${c.color}`, boxShadow: "0 2px 10px rgba(13,61,74,0.07)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
+              <span style={{ fontSize: 20 }}>{c.icon}</span>
+              <div style={{ fontWeight: 700, fontSize: 14, color: SI_DARK_TEXT }}>{c.label}</div>
+            </div>
+            <div style={{ marginBottom: 16 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 8 }}>
+                <span style={{ fontSize: 12, color: SI_GRAY_TEXT }}>Gross Margin</span>
+                <span style={{ fontWeight: 800, fontSize: 28, color: c.color, letterSpacing: -1 }}>{c.gm}%</span>
+              </div>
+              <div style={{ background: SI_LIGHT_BG, borderRadius: 6, height: 14, overflow: "hidden", border: `1px solid ${SI_BORDER}` }}>
+                <div style={{ width: `${c.gm}%`, background: c.color, height: "100%", borderRadius: 6 }} />
+              </div>
+            </div>
+            <div style={{ fontSize: 11, color: SI_GRAY_TEXT, lineHeight: 1.6, background: SI_LIGHT_BG, borderRadius: 6, padding: "10px 12px" }}>
+              <strong style={{ color: SI_DARK_TEXT }}>COGS Driver: </strong>{c.cogs}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style={{ display: "flex", gap: 10 }}>
+        {[
+          { icon: "🤖", text: "AI cost per assessment ~$3 today, declining 50–70% annually as model costs fall" },
+          { icon: "📊", text: "Margin expands over time without price increases as underlying AI costs drop" },
+          { icon: "⚙️", text: "Scoring refresh cadence is the primary COGS variable — manageable through tiered packaging" },
+        ].map((t, i) => (
+          <div key={i} style={{ flex: 1, background: `${SI_GREEN}08`, borderRadius: 6, padding: "10px 12px", display: "flex", gap: 8, alignItems: "flex-start", border: `1px solid ${SI_GREEN}20` }}>
+            <span style={{ fontSize: 16, flexShrink: 0 }}>{t.icon}</span>
+            <span style={{ fontSize: 11, color: SI_GRAY_TEXT, lineHeight: 1.5 }}>{t.text}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function MoatsSlide() {
+  const moats = [
+    { title: "Data Moat", icon: "🗄️", desc: "Compliance campaign data is validated, proprietary, and collected over years. No competitor can buy or replicate it. The longer a customer uses C-Map+, the richer their risk intelligence becomes.", color: SI_DARK_TEAL },
+    { title: "Switching Cost Moat", icon: "🔗", desc: "A customer who leaves doesn't just lose the tool — they lose the accumulated risk intelligence their compliance data has generated. This creates structural retention beyond contractual lock-in.", color: SI_GREEN },
+    { title: "Progressive Value Moat", icon: "📈", desc: "Every new C-Map+ module a customer activates improves their risk score fidelity. This creates a compounding incentive to expand their platform footprint — a natural land-and-expand engine.", color: SI_MID_TEAL },
+    { title: "Timing Moat", icon: "⏰", desc: "Current tariff volatility, UFLPA enforcement, EUDR deadlines, and CSDDD implementation create an exceptional demand window right now. We have a product for this moment.", color: SI_GOLD },
+  ];
+  return (
+    <div style={{ flex: 1, display: "flex", flexDirection: "column", padding: "32px 36px 52px" }}>
+      <SectionHeader title="The Moats We're Building" subtitle="Four structural advantages that compound over time" accentColor={SI_MID_TEAL} />
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, flex: 1 }}>
+        {moats.map((m, i) => (
+          <div key={i} style={{ background: SI_WHITE, borderRadius: 8, padding: 20, border: `1px solid ${SI_BORDER}`, borderTop: `4px solid ${m.color}`, boxShadow: "0 2px 10px rgba(13,61,74,0.06)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+              <div style={{ width: 40, height: 40, background: `${m.color}12`, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>{m.icon}</div>
+              <div style={{ fontWeight: 700, fontSize: 14, color: m.color }}>{m.title}</div>
+            </div>
+            <div style={{ fontSize: 12, color: SI_GRAY_TEXT, lineHeight: 1.6 }}>{m.desc}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function PathSlide() {
+  const phases = [
+    { phase: "Phase 1", label: "Validate", timing: "Now → Q2 2026", color: SI_DARK_TEAL, items: ["Determine local SIRM rules for Product Compliance + Assessment", "Validate composite score against real customer data", "Identify 3–5 anchor beta customers from existing base", "Establish engineering velocity baseline"] },
+    { phase: "Phase 2", label: "Beta", timing: "Q3 2026", color: SI_GREEN, items: ["Controlled release to anchor customers", "White-glove managed services support", "Generate case studies and proof points", "Validate new persona engagement in accounts"] },
+    { phase: "Phase 3", label: "Launch", timing: "Q4 2026", color: SI_MID_TEAL, items: ["Commercial release with validated scoring", "New persona GTM motion activated", "Pricing architecture live", "Freemium and self-serve onboarding"] },
+  ];
+  return (
+    <div style={{ flex: 1, display: "flex", flexDirection: "column", padding: "32px 36px 52px" }}>
+      <SectionHeader title="Path to Market" subtitle="Three phases that build confidence at each step before broader commitment" accentColor={SI_DARK_TEAL} />
+      <div style={{ display: "flex", gap: 0, flex: 1 }}>
+        {phases.map((p, i) => (
+          <div key={i} style={{ flex: 1, display: "flex", flexDirection: "column", position: "relative" }}>
+            <div style={{ background: p.color, borderRadius: i === 0 ? "8px 0 0 0" : i === phases.length - 1 ? "0 8px 0 0" : 0, padding: "16px 18px", position: "relative" }}>
+              <div style={{ color: "rgba(255,255,255,0.6)", fontSize: 10, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", marginBottom: 4 }}>{p.phase}</div>
+              <div style={{ color: SI_WHITE, fontSize: 20, fontWeight: 800 }}>{p.label}</div>
+              <div style={{ color: "rgba(255,255,255,0.75)", fontSize: 11, marginTop: 3 }}>{p.timing}</div>
+              {i < phases.length - 1 && (
+                <div style={{ position: "absolute", right: -12, top: "50%", transform: "translateY(-50%)", width: 0, height: 0, borderTop: "14px solid transparent", borderBottom: "14px solid transparent", borderLeft: `12px solid ${p.color}`, zIndex: 3 }} />
+              )}
+            </div>
+            <div style={{ flex: 1, background: SI_LIGHT_BG, borderRadius: i === 0 ? "0 0 0 8px" : i === phases.length - 1 ? "0 0 8px 0" : 0, padding: 16, borderRight: i < phases.length - 1 ? `1px solid ${SI_BORDER}` : "none", borderBottom: `1px solid ${SI_BORDER}`, borderLeft: i === 0 ? `1px solid ${SI_BORDER}` : "none" }}>
+              {p.items.map((item, j) => (
+                <div key={j} style={{ display: "flex", gap: 8, marginBottom: 10, alignItems: "flex-start" }}>
+                  <div style={{ width: 16, height: 16, borderRadius: "50%", background: p.color, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
+                    <span style={{ color: SI_WHITE, fontSize: 9, fontWeight: 700 }}>✓</span>
+                  </div>
+                  <div style={{ fontSize: 11, color: SI_GRAY_TEXT, lineHeight: 1.5 }}>{item}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style={{ marginTop: 14, background: `${SI_DARK_TEAL}08`, borderRadius: 6, padding: "10px 16px", fontSize: 12, color: SI_DARK_TEAL, fontWeight: 600, textAlign: "center", border: `1px solid ${SI_DARK_TEAL}15` }}>
+        Q3 beta generates proof, not promises — commercial launch follows with customer evidence in hand
+      </div>
+    </div>
+  );
+}
+
+const slideComponents: Record<string, React.FC> = {
+  cover: CoverSlide,
+  problem: ProblemSlide,
+  opportunity: OpportunitySlide,
+  advantage: AdvantageSlide,
+  scoring: ScoringSlide,
+  competitive: CompetitiveSlide,
+  revenue: RevenueSlide,
+  margin: MarginSlide,
+  moats: MoatsSlide,
+  path: PathSlide,
+};
+
+export default function Page() {
+  const [current, setCurrent] = useState(0);
+  const slide = slides[current];
+  const SlideComponent = slideComponents[slide.type];
+
+  return (
+    <div style={{ background: "#dde4e7", minHeight: "100vh", padding: 24, display: "flex", flexDirection: "column", alignItems: "center" }}>
+      <div style={{ width: "100%", maxWidth: 920 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14, padding: "8px 16px", background: SI_DARK_TEAL, borderRadius: 8 }}>
+          <SILogo dark={false} />
+          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.6)", fontStyle: "italic" }}>ELT Strategic Briefing — Risk Intelligence Product</div>
+        </div>
+        <SlideWrapper current={current + 1}>
+          <SlideComponent />
+        </SlideWrapper>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 16, marginTop: 18 }}>
+          <button
+            onClick={() => setCurrent(c => Math.max(0, c - 1))}
+            disabled={current === 0}
+            style={{ padding: "9px 22px", borderRadius: 6, border: "none", background: current === 0 ? "#c5cdd0" : SI_DARK_TEAL, color: current === 0 ? "#999" : SI_WHITE, fontWeight: 700, fontSize: 13, cursor: current === 0 ? "default" : "pointer" }}
+          >
+            ← Previous
+          </button>
+          <div style={{ display: "flex", gap: 5, alignItems: "center" }}>
+            {slides.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrent(i)}
+                style={{ width: i === current ? 24 : 8, height: 8, borderRadius: 4, border: "none", background: i === current ? SI_GREEN : SI_DARK_TEAL + "40", cursor: "pointer", padding: 0 }}
+              />
+            ))}
+          </div>
+          <button
+            onClick={() => setCurrent(c => Math.min(slides.length - 1, c + 1))}
+            disabled={current === slides.length - 1}
+            style={{ padding: "9px 22px", borderRadius: 6, border: "none", background: current === slides.length - 1 ? "#c5cdd0" : SI_GREEN, color: current === slides.length - 1 ? "#999" : SI_WHITE, fontWeight: 700, fontSize: 13, cursor: current === slides.length - 1 ? "default" : "pointer" }}
+          >
+            Next →
+          </button>
+        </div>
+        <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap", gap: 6, marginTop: 12 }}>
+          {slides.map((s, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrent(i)}
+              style={{ padding: "3px 10px", borderRadius: 20, border: `1px solid ${i === current ? SI_DARK_TEAL : SI_BORDER}`, background: i === current ? SI_DARK_TEAL : SI_WHITE, color: i === current ? SI_WHITE : SI_GRAY_TEXT, fontSize: 10, fontWeight: i === current ? 700 : 400, cursor: "pointer" }}
+            >
+              {i + 1}. {s.title.split(" ").slice(0, 3).join(" ")}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
